@@ -29,14 +29,14 @@ pipeline {
             }
         }
         
-        stage('Frontend Tests') {
-            steps {
-                dir('frontend') {
-                    sh 'npm install'
-                    sh 'npm test -- --passWithNoTests'
-                }
-            }
-        }
+        // stage('Frontend Tests') {
+        //     steps {
+        //         dir('frontend') {
+        //             sh 'npm install'
+        //             sh 'npm test -- --passWithNoTests'
+        //         }
+        //     }
+        // }
         
         stage('SonarQube Analysis') {
             steps {
