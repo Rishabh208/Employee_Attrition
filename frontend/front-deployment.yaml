@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  labels:
+    app: employee-attrition-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: employee-attrition-frontend
+  template:
+    metadata:
+      labels:
+        app: employee-attrition-frontend
+    spec:
+      containers:
+      - name: frontend
+        image: siddhesh01/employee-attrition-frontend:latest
+        env:
+        - name: REACT_APP_API_URL
+          value: "http://backend-service:8000/api" # Change to your backend service URL
+        ports:
+        - containerPort: 3000
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: "256Mi"
+          requests:
+            cpu: "0.2"
+            memory: "128Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+spec:
+  selector:
+    app: employee-attrition-frontend
+  ports:
+  - port: 80
+    targetPort: 3000
+  type: ClusterIP
