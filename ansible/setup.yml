@@ -1,0 +1,65 @@
+---
+- name: Setup common configuration
+  hosts: all
+  roles:
+    - common
+
+- name: Setup Docker
+  hosts: all
+  roles:
+    - docker
+
+- name: Setup Kubernetes master
+  hosts: k8s_master
+  roles:
+    - kubernetes
+  tasks:
+    - name: Initialize Kubernetes cluster
+      command: kubeadm init --pod-network-cidr=10.244.0.0/16
+      register: kubeadm_init
+      become: yes
+
+    - name: Create .kube directory
+      file:
+        path: "{{ ansible_user_dir }}/.kube"
+        state: directory
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0755'
+
+    - name: Copy kube config
+      copy:
+        src: /etc/kubernetes/admin.conf
+        dest: "{{ ansible_user_dir }}/.kube/config"
+        remote_src: yes
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0600'
+      become: yes
+
+    - name: Install Flannel network plugin
+      command: kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
+      become_user: "{{ ansible_user }}"
+
+    - name: Get join command
+      command: kubeadm token create --print-join-command
+      register: join_command
+      become: yes
+
+    - name: Store join command
+      set_fact:
+        join_command: "{{ join_command.stdout }}"
+
+- name: Join Kubernetes workers
+  hosts: k8s_workers
+  roles:
+    - kubernetes
+  tasks:
+    - name: Join Kubernetes cluster
+      command: "{{ hostvars['k8s-master']['join_command'] }}"
+      become: yes
+
+- name: Setup Jenkins
+  hosts: jenkins
+  roles:
+    - jenkins

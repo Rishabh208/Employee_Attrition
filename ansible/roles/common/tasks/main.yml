@@ -1,0 +1,35 @@
+---
+- name: Update apt packages
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+  become: yes
+
+- name: Install common packages
+  apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg
+      - lsb-release
+      - python3-pip
+      - git
+    state: present
+  become: yes
+
+- name: Set up timezone
+  community.general.timezone:
+    name: "{{ timezone | default('UTC') }}"
+  become: yes
+
+- name: Configure SSH key for GitHub
+  copy:
+    src: "{{ ssh_key_path }}"
+    dest: "~/.ssh/id_rsa"
+    mode: 0600
+
+- name: Add GitHub to known hosts
+  shell: ssh-keyscan github.com >> ~/.ssh/known_hosts
+  args:
+    creates: "~/.ssh/known_hosts"

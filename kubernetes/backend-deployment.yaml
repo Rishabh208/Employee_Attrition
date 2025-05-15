@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: ml-app
+  labels:
+    app: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: yourdockerhub/ml-backend:latest
+        ports:
+        - containerPort: 8000
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        env:
+        - name: DEBUG
+          valueFrom:
+            configMapKeyRef:
+              name: ml-app-config
+              key: DEBUG
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: ml-app-secrets
+              key: DATABASE_URL
+        volumeMounts:
+        - name: ml-data
+          mountPath: /app/data
+        - name: ml-pickle
+          mountPath: /app/pickle
+        - name: log-volume
+          mountPath: /app/log
+        livenessProbe:
+          httpGet:
+            path: /training/health/
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /training/health/
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+      volumes:
+      - name: ml-data
+        persistentVolumeClaim:
+          claimName: ml-data-pvc
+      - name: ml-pickle
+        persistentVolumeClaim:
+          claimName: ml-pickle-pvc
+      - name: log-volume
+        persistentVolumeClaim:
+          claimName: ml-log-pvc
