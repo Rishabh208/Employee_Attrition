@@ -7,11 +7,9 @@ pipeline {
     }
     
     environment {
-        DOCKER_HUB_CREDS = credentials('DockerHubCred')
         DOCKER_IMAGE_BACKEND = 'rksingh5/ml-backend'  // Change 'yourusername'
         DOCKER_IMAGE_FRONTEND = 'rksingh5/ml-frontend'  // Change 'yourusername'
         DOCKER_TAG = "${env.BUILD_NUMBER}"
-        KUBECONFIG = credentials('kubeconfig')
     }
     
     stages {
@@ -43,7 +41,7 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 echo 'SonarQube analysis temporarily disabled'
-                // Commenting out the SonarQube integration until the plugin is installed
+                // Uncomment when SonarQube plugin is configured
                 // withSonarQubeEnv('SonarQubeServer') {
                 //     sh 'sonar-scanner'
                 // }
@@ -52,28 +50,30 @@ pipeline {
         
         stage('Build Docker Images') {
             steps {
-                sh 'docker build -t ${DOCKER_IMAGE_BACKEND}:${DOCKER_TAG} ./backend'
-                sh 'docker build -t ${DOCKER_IMAGE_FRONTEND}:${DOCKER_TAG} ./frontend'
-                sh 'docker tag ${DOCKER_IMAGE_BACKEND}:${DOCKER_TAG} ${DOCKER_IMAGE_BACKEND}:latest'
-                sh 'docker tag ${DOCKER_IMAGE_FRONTEND}:${DOCKER_TAG} ${DOCKER_IMAGE_FRONTEND}:latest'
+                sh "docker build -t ${DOCKER_IMAGE_BACKEND}:${DOCKER_TAG} ./backend"
+                sh "docker build -t ${DOCKER_IMAGE_FRONTEND}:${DOCKER_TAG} ./frontend"
+                sh "docker tag ${DOCKER_IMAGE_BACKEND}:${DOCKER_TAG} ${DOCKER_IMAGE_BACKEND}:latest"
+                sh "docker tag ${DOCKER_IMAGE_FRONTEND}:${DOCKER_TAG} ${DOCKER_IMAGE_FRONTEND}:latest"
             }
         }
         
         stage('Push Docker Images') {
             steps {
-                sh 'echo ${DOCKER_HUB_CREDS_PSW} | docker login -u ${DOCKER_HUB_CREDS_USR} --password-stdin'
-                sh 'docker push ${DOCKER_IMAGE_BACKEND}:${DOCKER_TAG}'
-                sh 'docker push ${DOCKER_IMAGE_FRONTEND}:${DOCKER_TAG}'
-                sh 'docker push ${DOCKER_IMAGE_BACKEND}:latest'
-                sh 'docker push ${DOCKER_IMAGE_FRONTEND}:latest'
+                withCredentials([usernamePassword(credentialsId: 'DockerHubCred', usernameVariable: 'DOCKER_HUB_USER', passwordVariable: 'DOCKER_HUB_PASS')]) {
+                    sh 'echo $DOCKER_HUB_PASS | docker login -u $DOCKER_HUB_USER --password-stdin'
+                }
+                sh "docker push ${DOCKER_IMAGE_BACKEND}:${DOCKER_TAG}"
+                sh "docker push ${DOCKER_IMAGE_FRONTEND}:${DOCKER_TAG}"
+                sh "docker push ${DOCKER_IMAGE_BACKEND}:latest"
+                sh "docker push ${DOCKER_IMAGE_FRONTEND}:latest"
             }
         }
         
         stage('Update Kubernetes Manifests') {
             steps {
                 sh '''
-                sed -i "s|image: ${DOCKER_IMAGE_BACKEND}:.*|image: ${DOCKER_IMAGE_BACKEND}:${DOCKER_TAG}|g" kubernetes/backend-deployment.yaml
-                sed -i "s|image: ${DOCKER_IMAGE_FRONTEND}:.*|image: ${DOCKER_IMAGE_FRONTEND}:${DOCKER_TAG}|g" kubernetes/frontend-deployment.yaml
+                sed -i "s|image: ${DOCKER_IMAGE_BACKEND}:.*|image: ${DOCKER_IMAGE_BACKEND}:${DOCKER_TAG}|" kubernetes/backend-deployment.yaml
+                sed -i "s|image: ${DOCKER_IMAGE_FRONTEND}:.*|image: ${DOCKER_IMAGE_FRONTEND}:${DOCKER_TAG}|" kubernetes/frontend-deployment.yaml
                 '''
             }
         }
@@ -103,13 +103,11 @@ pipeline {
         }
         success {
             echo 'Pipeline executed successfully!'
-            // slackSend(...)  // Optional: you can uncomment this when needed
+            // slackSend(channel: '#ci-cd', message: "✅ Build #${env.BUILD_NUMBER} succeeded!") // Optional
         }
         failure {
             echo 'Pipeline execution failed!'
-            // slackSend(...)  // Optional: you can uncomment this when needed
+            // slackSend(channel: '#ci-cd', message: "❌ Build #${env.BUILD_NUMBER} failed!") // Optional
+        }
     }
-}
-
-
 }
