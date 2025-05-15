@@ -98,19 +98,18 @@ pipeline {
     
     post {
         always {
-            node{
-                sh 'docker logout'
-                cleanWs()
-            }
+            sh 'docker logout'
+            cleanWs()
         }
         success {
             echo 'Pipeline executed successfully!'
-            // Remove or comment out the slackSend line
+            // slackSend(...)  // Optional: you can uncomment this when needed
         }
         failure {
             echo 'Pipeline execution failed!'
-            // Remove or comment out the slackSend line
-        }
+            // slackSend(...)  // Optional: you can uncomment this when needed
     }
+}
+
 
 }
