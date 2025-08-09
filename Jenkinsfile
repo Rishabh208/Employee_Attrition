@@ -2,13 +2,13 @@ pipeline {
     agent any
     
     tools {
-        nodejs 'NodeJS' // Configure in Jenkins Global Tool Configuration
-        jdk 'JDK'       // Configure in Jenkins Global Tool Configuration
+        nodejs 'NodeJS'
+        jdk 'JDK'     
     }
     
     environment {
-        DOCKER_IMAGE_BACKEND = 'rksingh5/ml-backend'  // Change 'yourusername'
-        DOCKER_IMAGE_FRONTEND = 'rksingh5/ml-frontend'  // Change 'yourusername'
+        DOCKER_IMAGE_BACKEND = 'rksingh5/ml-backend'  
+        DOCKER_IMAGE_FRONTEND = 'rksingh5/ml-frontend'  
         DOCKER_TAG = "${env.BUILD_NUMBER}"
     }
     
@@ -29,22 +29,9 @@ pipeline {
             }
         }
         
-        // stage('Frontend Tests') {
-        //     steps {
-        //         dir('frontend') {
-        //             sh 'npm install'
-        //             sh 'npm test -- --passWithNoTests'
-        //         }
-        //     }
-        // }
-        
         stage('SonarQube Analysis') {
             steps {
                 echo 'SonarQube analysis temporarily disabled'
-                // Uncomment when SonarQube plugin is configured
-                // withSonarQubeEnv('SonarQubeServer') {
-                //     sh 'sonar-scanner'
-                // }
             }
         }
         
@@ -103,11 +90,9 @@ pipeline {
         }
         success {
             echo 'Pipeline executed successfully!'
-            // slackSend(channel: '#ci-cd', message: "✅ Build #${env.BUILD_NUMBER} succeeded!") // Optional
         }
         failure {
             echo 'Pipeline execution failed!'
-            // slackSend(channel: '#ci-cd', message: "❌ Build #${env.BUILD_NUMBER} failed!") // Optional
         }
     }
 }
