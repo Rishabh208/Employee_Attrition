@@ -57,7 +57,7 @@ pipeline {
         stage('Deploy with Ansible') {
             steps {
                 withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG_FILE')]) {
-                    dir('Employee_Attrition') {
+                    dir('') {
                         sh '''
                         export ANSIBLE_PYTHON_INTERPRETER=/usr/bin/python3
                         export KUBECONFIG="${KUBECONFIG_FILE}"
