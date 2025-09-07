@@ -7,7 +7,7 @@ pipeline {
         DOCKER_IMAGE_BACKEND = 'rksingh5/employee_attrition1-backend'
         DOCKER_IMAGE_FRONTEND = 'rksingh5/employee_attrition1-frontend'
         DOCKER_TAG = "${env.BUILD_NUMBER}"
-        KUBECONFIG_CRED = credentials('mykubeconfig')
+        KUBECONFIG_CRED = credentials('kubeconfig')
     }
 
     stages {
