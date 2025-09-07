@@ -22,11 +22,11 @@ pipeline {
         
         stage('Build Docker Images') {
             steps {
-                dir('Employee_Attrition/backend') {
+                dir('backend') {
                     sh 'docker build -t ${DOCKER_IMAGE_BACKEND}:${DOCKER_TAG} .'
                     sh 'docker tag ${DOCKER_IMAGE_BACKEND}:${DOCKER_TAG} ${DOCKER_IMAGE_BACKEND}:latest'
                 }
-                dir('Employee_Attrition/frontend') {
+                dir('frontend') {
                     sh 'docker build -t ${DOCKER_IMAGE_FRONTEND}:${DOCKER_TAG} .'
                     sh 'docker tag ${DOCKER_IMAGE_FRONTEND}:${DOCKER_TAG} ${DOCKER_IMAGE_FRONTEND}:latest'
                 }
