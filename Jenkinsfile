@@ -46,17 +46,17 @@ pipeline {
         stage('Update Kubernetes Manifests') {
             steps {
                 sh '''
-                sed -i "s|image: ${DOCKER_IMAGE_BACKEND}:.*|image: ${DOCKER_IMAGE_BACKEND}:${DOCKER_TAG}|g" Employee_Attrition/k8s/backend-deployment.yaml
-                sed -i "s|image: ${DOCKER_IMAGE_FRONTEND}:.*|image: ${DOCKER_IMAGE_FRONTEND}:${DOCKER_TAG}|g" Employee_Attrition/k8s/frontend-deployment.yaml
-                sed -i 's/imagePullPolicy: Never/imagePullPolicy: Always/g' Employee_Attrition/k8s/backend-deployment.yaml
-                sed -i 's/imagePullPolicy: Never/imagePullPolicy: Always/g' Employee_Attrition/k8s/frontend-deployment.yaml
+                sed -i "s|image: ${DOCKER_IMAGE_BACKEND}:.*|image: ${DOCKER_IMAGE_BACKEND}:${DOCKER_TAG}|g" k8s/backend-deployment.yaml
+                sed -i "s|image: ${DOCKER_IMAGE_FRONTEND}:.*|image: ${DOCKER_IMAGE_FRONTEND}:${DOCKER_TAG}|g" k8s/frontend-deployment.yaml
+                sed -i 's/imagePullPolicy: Never/imagePullPolicy: Always/g' k8s/backend-deployment.yaml
+                sed -i 's/imagePullPolicy: Never/imagePullPolicy: Always/g' k8s/frontend-deployment.yaml
                 '''
             }
         }
         
         stage('Deploy with Ansible') {
             steps {
-                withCredentials([file(credentialsId: 'mykubeconfig', variable: 'KUBECONFIG_FILE')]) {
+                withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG_FILE')]) {
                     dir('Employee_Attrition') {
                         sh '''
                         export ANSIBLE_PYTHON_INTERPRETER=/usr/bin/python3
@@ -72,7 +72,7 @@ pipeline {
         
         stage('Verify Deployment') {
             steps {
-                withCredentials([file(credentialsId: 'mykubeconfig', variable: 'KUBECONFIG_FILE')]) {
+                withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG_FILE')]) {
                     sh '''
                     KUBECONFIG=${KUBECONFIG_FILE} kubectl get pods -n employee-attrition
                     KUBECONFIG=${KUBECONFIG_FILE} kubectl get services -n employee-attrition
