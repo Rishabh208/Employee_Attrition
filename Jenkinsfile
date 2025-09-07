@@ -1,22 +1,11 @@
 pipeline {
     agent any
     
-<<<<<<< HEAD
-    tools {
-        nodejs 'NodeJS'
-        jdk 'JDK'     
-    }
-    
     environment {
-        DOCKER_IMAGE_BACKEND = 'rksingh5/ml-backend'  
-        DOCKER_IMAGE_FRONTEND = 'rksingh5/ml-frontend'  
-=======
-    environment {
-        GITHUB_REPO_URL = 'https://github.com/Rishabh208/Employee_Attrition.gitqewcx'
+        GITHUB_REPO_URL = 'https://github.com/SiddheshDare/SPE-Project.git'
         DOCKER_HUB_CREDS = credentials('DockerHubCred')
-        DOCKER_IMAGE_BACKEND = 'rksingh5/ml-backend'
-        DOCKER_IMAGE_FRONTEND = 'eksingh5/ml-frontend'
->>>>>>> fae1309 (fix)
+        DOCKER_IMAGE_BACKEND = 'siddhesh01/employee_attrition1-backend'
+        DOCKER_IMAGE_FRONTEND = 'siddhesh01/employee_attrition1-frontend'
         DOCKER_TAG = "${env.BUILD_NUMBER}"
         KUBECONFIG_CRED = credentials('mykubeconfig')
     }
@@ -31,15 +20,6 @@ pipeline {
             }
         }
         
-<<<<<<< HEAD
-        stage('SonarQube Analysis') {
-            steps {
-                echo 'SonarQube analysis temporarily disabled'
-            }
-        }
-        
-=======
->>>>>>> fae1309 (fix)
         stage('Build Docker Images') {
             steps {
                 dir('Employee_Attrition/backend') {
@@ -109,17 +89,10 @@ pipeline {
             cleanWs()
         }
         success {
-<<<<<<< HEAD
-            echo 'Pipeline executed successfully!'
-        }
-        failure {
-            echo 'Pipeline execution failed!'
-=======
             echo 'Pipeline completed successfully!'
         }
         failure {
             echo 'Pipeline failed!'
->>>>>>> fae1309 (fix)
         }
     }
 }
