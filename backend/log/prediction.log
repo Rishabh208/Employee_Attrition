@@ -1086,3 +1086,161 @@ weighted avg       0.86      0.86      0.86       294
 2025-04-30 11:56:31,639 - WARNING - Added missing feature: MaritalStatus_Married
 2025-04-30 11:56:31,639 - WARNING - Added missing feature: OverTime_Yes
 2025-04-30 11:56:31,989 - INFO - Prediction successful: {'prediction': 'Yes', 'probability': 0.5815918917861412, 'confidence': 'Low', 'model_id': 'b6b777c4-6732-49fd-80bc-97315c887457'}
+2025-05-17 17:16:17,395 - INFO - Loading data from database...
+2025-05-17 17:16:17,435 - INFO - Preprocessing data...
+2025-05-17 17:16:17,451 - INFO - Training model with parameters: {'n_estimators': 1000, 'max_depth': 4, 'min_samples_leaf': 2}
+2025-05-17 17:16:17,452 - ERROR - Exception during training: Input y contains NaN.
+Traceback (most recent call last):
+  File "/home/rishabh/SPE/Employee_Attrition/backend/Attrition/services/training.py", line 196, in train
+    model, metrics, final_params = self.train_model(
+  File "/home/rishabh/SPE/Employee_Attrition/backend/Attrition/services/training.py", line 86, in train_model
+    smote_train, smote_target = smote.fit_resample(train_data, train_target)
+  File "/home/rishabh/.virtualenvs/test/lib/python3.10/site-packages/imblearn/base.py", line 202, in fit_resample
+    return super().fit_resample(X, y, **params)
+  File "/home/rishabh/.virtualenvs/test/lib/python3.10/site-packages/sklearn/base.py", line 1389, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+  File "/home/rishabh/.virtualenvs/test/lib/python3.10/site-packages/imblearn/base.py", line 97, in fit_resample
+    check_classification_targets(y)
+  File "/home/rishabh/.virtualenvs/test/lib/python3.10/site-packages/sklearn/utils/multiclass.py", line 214, in check_classification_targets
+    y_type = type_of_target(y, input_name="y")
+  File "/home/rishabh/.virtualenvs/test/lib/python3.10/site-packages/sklearn/utils/multiclass.py", line 417, in type_of_target
+    _assert_all_finite(data, input_name=input_name)
+  File "/home/rishabh/.virtualenvs/test/lib/python3.10/site-packages/sklearn/utils/validation.py", line 120, in _assert_all_finite
+    _assert_all_finite_element_wise(
+  File "/home/rishabh/.virtualenvs/test/lib/python3.10/site-packages/sklearn/utils/validation.py", line 169, in _assert_all_finite_element_wise
+    raise ValueError(msg_err)
+ValueError: Input y contains NaN.
+2025-05-17 17:16:17,456 - ERROR - Internal Server Error: /training/
+2025-05-17 17:23:27,378 - INFO - Loading data from database...
+2025-05-17 17:23:27,410 - INFO - Preprocessing data...
+2025-05-17 17:23:27,423 - INFO - Training model with parameters: {'n_estimators': 1000, 'max_depth': 4, 'min_samples_leaf': 2}
+2025-05-17 17:23:27,423 - ERROR - Exception during training: Input y contains NaN.
+Traceback (most recent call last):
+  File "/home/rishabh/SPE/Employee_Attrition/backend/Attrition/services/training.py", line 196, in train
+    model, metrics, final_params = self.train_model(
+  File "/home/rishabh/SPE/Employee_Attrition/backend/Attrition/services/training.py", line 86, in train_model
+    smote_train, smote_target = smote.fit_resample(train_data, train_target)
+  File "/home/rishabh/.virtualenvs/test/lib/python3.10/site-packages/imblearn/base.py", line 202, in fit_resample
+    return super().fit_resample(X, y, **params)
+  File "/home/rishabh/.virtualenvs/test/lib/python3.10/site-packages/sklearn/base.py", line 1389, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+  File "/home/rishabh/.virtualenvs/test/lib/python3.10/site-packages/imblearn/base.py", line 97, in fit_resample
+    check_classification_targets(y)
+  File "/home/rishabh/.virtualenvs/test/lib/python3.10/site-packages/sklearn/utils/multiclass.py", line 214, in check_classification_targets
+    y_type = type_of_target(y, input_name="y")
+  File "/home/rishabh/.virtualenvs/test/lib/python3.10/site-packages/sklearn/utils/multiclass.py", line 417, in type_of_target
+    _assert_all_finite(data, input_name=input_name)
+  File "/home/rishabh/.virtualenvs/test/lib/python3.10/site-packages/sklearn/utils/validation.py", line 120, in _assert_all_finite
+    _assert_all_finite_element_wise(
+  File "/home/rishabh/.virtualenvs/test/lib/python3.10/site-packages/sklearn/utils/validation.py", line 169, in _assert_all_finite_element_wise
+    raise ValueError(msg_err)
+ValueError: Input y contains NaN.
+2025-05-17 17:23:27,424 - ERROR - Internal Server Error: /training/
+2025-05-17 18:15:48,351 - INFO - Received prediction request for model 1b218af9-93c1-423f-8970-f217fede8bbc
+2025-05-17 18:15:48,550 - INFO - Input data shape: (1, 35)
+2025-05-17 18:15:48,556 - WARNING - Added missing feature: BusinessTravel_Travel_Frequently
+2025-05-17 18:15:48,556 - WARNING - Added missing feature: Department_Research & Development
+2025-05-17 18:15:48,557 - WARNING - Added missing feature: Department_Sales
+2025-05-17 18:15:48,557 - WARNING - Added missing feature: EducationField_Marketing
+2025-05-17 18:15:48,557 - WARNING - Added missing feature: EducationField_Medical
+2025-05-17 18:15:48,557 - WARNING - Added missing feature: EducationField_Other
+2025-05-17 18:15:48,558 - WARNING - Added missing feature: EducationField_Technical Degree
+2025-05-17 18:15:48,558 - WARNING - Added missing feature: Gender_Male
+2025-05-17 18:15:48,558 - WARNING - Added missing feature: JobRole_Laboratory Technician
+2025-05-17 18:15:48,559 - WARNING - Added missing feature: JobRole_Manager
+2025-05-17 18:15:48,559 - WARNING - Added missing feature: JobRole_Manufacturing Director
+2025-05-17 18:15:48,559 - WARNING - Added missing feature: JobRole_Research Director
+2025-05-17 18:15:48,559 - WARNING - Added missing feature: JobRole_Research Scientist
+2025-05-17 18:15:48,560 - WARNING - Added missing feature: JobRole_Sales Executive
+2025-05-17 18:15:48,560 - WARNING - Added missing feature: JobRole_Sales Representative
+2025-05-17 18:15:48,560 - WARNING - Added missing feature: MaritalStatus_Married
+2025-05-17 18:15:48,910 - INFO - Prediction successful: {'prediction': 'No', 'probability': 0.3664966398452019, 'confidence': 'Low', 'model_id': '1b218af9-93c1-423f-8970-f217fede8bbc'}
+2025-05-17 18:29:20,736 - INFO - Loading data from database...
+2025-05-17 18:29:20,803 - INFO - Preprocessing data...
+2025-05-17 18:29:20,818 - INFO - Training model with parameters: {'n_estimators': 1000, 'max_depth': 4, 'min_samples_leaf': 2}
+2025-05-17 18:29:20,818 - ERROR - Exception during training: Input y contains NaN.
+Traceback (most recent call last):
+  File "/home/rishabh/SPE/Employee_Attrition/backend/Attrition/services/training.py", line 196, in train
+    model, metrics, final_params = self.train_model(
+  File "/home/rishabh/SPE/Employee_Attrition/backend/Attrition/services/training.py", line 86, in train_model
+    smote_train, smote_target = smote.fit_resample(train_data, train_target)
+  File "/home/rishabh/.virtualenvs/test/lib/python3.10/site-packages/imblearn/base.py", line 202, in fit_resample
+    return super().fit_resample(X, y, **params)
+  File "/home/rishabh/.virtualenvs/test/lib/python3.10/site-packages/sklearn/base.py", line 1389, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+  File "/home/rishabh/.virtualenvs/test/lib/python3.10/site-packages/imblearn/base.py", line 97, in fit_resample
+    check_classification_targets(y)
+  File "/home/rishabh/.virtualenvs/test/lib/python3.10/site-packages/sklearn/utils/multiclass.py", line 214, in check_classification_targets
+    y_type = type_of_target(y, input_name="y")
+  File "/home/rishabh/.virtualenvs/test/lib/python3.10/site-packages/sklearn/utils/multiclass.py", line 417, in type_of_target
+    _assert_all_finite(data, input_name=input_name)
+  File "/home/rishabh/.virtualenvs/test/lib/python3.10/site-packages/sklearn/utils/validation.py", line 120, in _assert_all_finite
+    _assert_all_finite_element_wise(
+  File "/home/rishabh/.virtualenvs/test/lib/python3.10/site-packages/sklearn/utils/validation.py", line 169, in _assert_all_finite_element_wise
+    raise ValueError(msg_err)
+ValueError: Input y contains NaN.
+2025-05-17 18:29:20,820 - ERROR - Internal Server Error: /training/
+2025-05-17 18:36:42,124 - INFO - /home/rishabh/SPE/Employee_Attrition/backend/Attrition/services/training.py changed, reloading.
+2025-05-17 18:36:47,430 - INFO - /home/rishabh/SPE/Employee_Attrition/backend/Attrition/services/training.py changed, reloading.
+2025-05-17 18:37:07,646 - INFO - Loading data from database...
+2025-05-17 18:37:07,678 - INFO - Preprocessing data...
+2025-05-17 18:37:07,679 - ERROR - Exception during training: Target variable mapping failed due to unexpected values in 'Attrition'
+Traceback (most recent call last):
+  File "/home/rishabh/SPE/Employee_Attrition/backend/Attrition/services/training.py", line 193, in train
+    train_features, train_target = self.preprocess_data(train_df, selected_features)
+  File "/home/rishabh/SPE/Employee_Attrition/backend/Attrition/services/training.py", line 63, in preprocess_data
+    raise ValueError("Target variable mapping failed due to unexpected values in 'Attrition'")
+ValueError: Target variable mapping failed due to unexpected values in 'Attrition'
+2025-05-17 18:37:07,681 - ERROR - Internal Server Error: /training/
+2025-05-17 18:41:16,506 - INFO - /home/rishabh/SPE/Employee_Attrition/backend/Attrition/services/training.py changed, reloading.
+2025-05-17 18:41:20,792 - INFO - /home/rishabh/SPE/Employee_Attrition/backend/Attrition/services/training.py changed, reloading.
+2025-05-17 18:41:31,093 - INFO - Loading data from database...
+2025-05-17 18:41:31,127 - INFO - Preprocessing data...
+2025-05-17 18:41:31,149 - INFO - Training model with parameters: {'n_estimators': 1000, 'max_depth': 4, 'min_samples_leaf': 2}
+2025-05-17 18:41:31,151 - ERROR - Exception during training: Input y contains NaN.
+Traceback (most recent call last):
+  File "/home/rishabh/SPE/Employee_Attrition/backend/Attrition/services/training.py", line 196, in train
+    model, metrics, final_params = self.train_model(
+  File "/home/rishabh/SPE/Employee_Attrition/backend/Attrition/services/training.py", line 86, in train_model
+    smote_train, smote_target = smote.fit_resample(train_data, train_target)
+  File "/home/rishabh/.virtualenvs/test/lib/python3.10/site-packages/imblearn/base.py", line 202, in fit_resample
+    return super().fit_resample(X, y, **params)
+  File "/home/rishabh/.virtualenvs/test/lib/python3.10/site-packages/sklearn/base.py", line 1389, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+  File "/home/rishabh/.virtualenvs/test/lib/python3.10/site-packages/imblearn/base.py", line 97, in fit_resample
+    check_classification_targets(y)
+  File "/home/rishabh/.virtualenvs/test/lib/python3.10/site-packages/sklearn/utils/multiclass.py", line 214, in check_classification_targets
+    y_type = type_of_target(y, input_name="y")
+  File "/home/rishabh/.virtualenvs/test/lib/python3.10/site-packages/sklearn/utils/multiclass.py", line 417, in type_of_target
+    _assert_all_finite(data, input_name=input_name)
+  File "/home/rishabh/.virtualenvs/test/lib/python3.10/site-packages/sklearn/utils/validation.py", line 120, in _assert_all_finite
+    _assert_all_finite_element_wise(
+  File "/home/rishabh/.virtualenvs/test/lib/python3.10/site-packages/sklearn/utils/validation.py", line 169, in _assert_all_finite_element_wise
+    raise ValueError(msg_err)
+ValueError: Input y contains NaN.
+2025-05-17 18:41:31,154 - ERROR - Internal Server Error: /training/
+2025-05-17 18:45:03,542 - INFO - /home/rishabh/SPE/Employee_Attrition/backend/Attrition/services/training.py changed, reloading.
+2025-05-17 18:45:12,937 - INFO - /home/rishabh/SPE/Employee_Attrition/backend/Attrition/services/training.py changed, reloading.
+2025-05-17 18:45:23,974 - INFO - Loading first 1450 rows from database...
+2025-05-17 18:45:24,004 - INFO - Loaded 1450 rows for training
+2025-05-17 18:45:24,005 - INFO - Preprocessing data...
+2025-05-17 18:45:24,019 - INFO - Training model with parameters: {'n_estimators': 1000, 'max_depth': 4, 'min_samples_leaf': 2}
+2025-05-17 18:45:26,243 - INFO - Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.90      0.88      0.89       247
+           1       0.40      0.44      0.42        43
+
+    accuracy                           0.82       290
+   macro avg       0.65      0.66      0.65       290
+weighted avg       0.83      0.82      0.82       290
+
+2025-05-17 18:45:26,244 - INFO - Confusion Matrix:
+[[218  29]
+ [ 24  19]]
+2025-05-17 18:45:26,245 - INFO - Accuracy: 0.8172
+2025-05-17 18:45:26,245 - INFO - Precision: 0.8259
+2025-05-17 18:45:26,245 - INFO - Recall: 0.8172
+2025-05-17 18:45:26,245 - INFO - F1_score: 0.8213
+2025-05-17 18:45:26,276 - INFO - Model saved successfully as model_d38f71c5-1831-4aac-80d9-813aa2134425.sav
+2025-05-17 18:45:26,276 - INFO - Training completed successfully

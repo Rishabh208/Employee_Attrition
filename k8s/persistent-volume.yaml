@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: model-data-pv
+  namespace: employee-attrition
+  labels:
+    type: local
+spec:
+  storageClassName: standard
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data/model-storage"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: model-data-pvc
+  namespace: employee-attrition
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
